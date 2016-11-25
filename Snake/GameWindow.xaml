@@ -6,6 +6,6 @@
         xmlns:local="clr-namespace:Snake"
         mc:Ignorable="d"
         Title="Snake" Height="350" Width="525" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
-    <Grid>
+    <Grid Name="grid">
     </Grid>
 </Window>
