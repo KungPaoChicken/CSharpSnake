@@ -11,7 +11,14 @@ namespace Snake
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
-    {
+    public partial class App : Application {
+        private void start() {
+            GameWindow w = new GameWindow();
+            w.Show();
+        }
+
+        private void main(object sender, StartupEventArgs e) {
+            new GameWindow().Show();
+        }
     }
 }
