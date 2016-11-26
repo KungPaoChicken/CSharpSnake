@@ -1,29 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace Snake
-{
+namespace Snake {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class GameWindow : Window {
-        public GameWindow(Field field) {
+        public GameWindow(Field field, int fps) {
             InitializeComponent();
             initializeGrid(field);
-            initializeTimer();
+            initializeTimer(fps);
         }
 
         private Field field;
@@ -57,10 +48,10 @@ namespace Snake
             }
         }
 
-        private void initializeTimer() {
+        private void initializeTimer(int fps) {
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(render);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / fps);
             dispatcherTimer.Start();
         }
 
