@@ -56,6 +56,7 @@ namespace Snake {
         }
 
         private void render(object sender, EventArgs e) {
+
             for (int i = 0; i < field.width; i++) {
                 for (int j = 0; j < field.height; j++) {
                         blocks[i][j].Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));

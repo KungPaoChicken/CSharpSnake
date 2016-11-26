@@ -9,14 +9,14 @@ namespace Snake {
         public int width { get; private set; }
         public int height { get; private set; }
 
-        Coordinate[] snake { get; set; }
+        Snake snake { get; set; }
         public Coordinate apple { get; private set; }
         internal Random seed;
 
-        public Field(int width, int height) {
+        public Field(int width, int height, Snake snake) {
             this.width = width;
             this.height = height;
-            snake = new Coordinate[width * height];
+            this.snake = snake;
             seed = new Random();
         }
 

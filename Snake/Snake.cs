@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Snake {
-    class Snake {
+    public class Snake {
         private List<Coordinate> body;
         private Direction direction;
 
-        Snake(List<Coordinate> body, Direction direction) {
+        public Snake(List<Coordinate> body, Direction direction) {
             this.body = body;
             this.direction = direction;
         }

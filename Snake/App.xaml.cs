@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
+using System.Collections.Generic;
 
 namespace Snake {
     /// <summary>
@@ -15,7 +16,9 @@ namespace Snake {
         }
 
         private void start() {
-            Field field = new Field(50, 50);
+            List<Coordinate> body = new List<Coordinate> {new Coordinate(0, 0)};
+            Snake snake = new Snake(body, Direction.RIGHT);
+            Field field = new Field(50, 50, snake);
             GameWindow w = new GameWindow(field, FRAMES);
             w.Show();
         }
