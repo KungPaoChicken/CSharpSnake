@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -7,23 +8,26 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Snake {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class GameWindow : Window {
+        private static readonly SolidColorBrush EMPTY = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+        private static readonly SolidColorBrush SNAKE = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+        private static readonly SolidColorBrush APPLE = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+
         public GameWindow(Field field, int fps) {
             InitializeComponent();
             initializeGrid(field);
             initializeTimer(fps);
+            timer.Start();
         }
 
+        private DispatcherTimer timer;
         private Field field;
         private Rectangle[][] blocks;
 
         private void initializeGrid(Field field) {
             this.field = field;
             // Jagged array instead of multi-dimensional array is used for performance reasons
-            // And similarity to our crappy Java code
+            // And similarity to our (crappy) Java code
             blocks = new Rectangle[field.width][];
             for (int i = 0; i < field.width; i++) {
                 grid.RowDefinitions.Add(new RowDefinition());
@@ -36,32 +40,40 @@ namespace Snake {
                 blocks[i] = new Rectangle[field.height];
                 for (int j = 0; j < field.height; j++) {
                     blocks[i][j] = new Rectangle();
+                    blocks[i][j].Fill = EMPTY;
                     Grid.SetRow(blocks[i][j], i);
                     Grid.SetColumn(blocks[i][j], j);
                     grid.Children.Add(blocks[i][j]);
-                    if (i % 2 == 0 || j % 2 == 0) {
-                        blocks[i][j].Fill = new SolidColorBrush(Color.FromArgb(222, 0, 0, 0));
-                    } else {
-                        blocks[i][j].Fill = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
-                    }
                 }
             }
         }
 
         private void initializeTimer(int fps) {
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(render);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / fps);
-            dispatcherTimer.Start();
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(render);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / fps);
         }
 
         private void render(object sender, EventArgs e) {
+            
+        }
 
-            for (int i = 0; i < field.width; i++) {
-                for (int j = 0; j < field.height; j++) {
-                        blocks[i][j].Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                }
+        private void pause() {
+            timer.Stop();
+        }
+
+        private void unpause() {
+            timer.Start();
+        }
+
+        private void draw(List<Coordinate> cs, SolidColorBrush colour) {
+            foreach(Coordinate c in cs) {
+                draw(c, colour);
             }
+        }
+
+        private void draw(Coordinate c, SolidColorBrush colour) {
+            blocks[c.x][c.y].Fill = colour;
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e) {
