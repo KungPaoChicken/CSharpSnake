@@ -19,7 +19,7 @@ namespace Snake
         }
 
         private void start() {
-            Field field = new Field(20, 20);
+            Field field = new Field(50, 50);
             GameWindow w = new GameWindow(field);
             w.Show();
         }
