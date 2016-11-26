@@ -17,7 +17,7 @@ namespace Snake {
 
         private void start() {
             List<Coordinate> body = new List<Coordinate> {new Coordinate(0, 0)};
-            Snake snake = new Snake(body, Direction.RIGHT);
+            Snek snake = new Snek(body, Direction.RIGHT);
             Field field = new Field(50, 50, snake);
             GameWindow w = new GameWindow(field, FRAMES);
             w.Show();

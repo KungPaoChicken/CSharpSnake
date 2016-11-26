@@ -5,11 +5,11 @@ namespace Snake {
         public int width { get; private set; }
         public int height { get; private set; }
 
-        Snake snake { get; set; }
+        Snek snake { get; set; }
         public Coordinate apple { get; private set; }
         internal Random seed;
 
-        public Field(int width, int height, Snake snake) {
+        public Field(int width, int height, Snek snake) {
             this.width = width;
             this.height = height;
             this.snake = snake;

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
 namespace Snake {
-    public class Snake {
+    public class Snek {
         private List<Coordinate> body;
         private Direction direction;
 
-        public Snake(List<Coordinate> body, Direction direction) {
+        public Snek(List<Coordinate> body, Direction direction) {
             this.body = body;
             this.direction = direction;
         }
