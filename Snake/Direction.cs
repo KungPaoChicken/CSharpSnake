@@ -1,7 +1,8 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace Snake {
-    public class Direction {
+    public class Direction : IEquatable<Direction> {
         public static readonly Direction UP = new Direction(1);
         public static readonly Direction DOWN = new Direction(-1);
         public static readonly Direction LEFT = new Direction(2);
@@ -35,6 +36,10 @@ namespace Snake {
 
         public bool isOpposite(Direction d) {
             return ordinal + d.ordinal == 0;
+        }
+
+        public bool Equals(Direction other) {
+            return ordinal == other.ordinal;
         }
     }
 }

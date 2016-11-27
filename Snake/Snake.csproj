@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CoordinateList.cs" />
+    <Compile Include="RenderCommand.cs" />
+    <Compile Include="Renderer.cs" />
+    <Compile Include="Frame.cs" />
     <Compile Include="Snek.cs" />
     <Page Include="GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

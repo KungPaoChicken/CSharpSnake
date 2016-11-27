@@ -1,5 +1,7 @@
-﻿namespace Snake {
-    public class Coordinate {
+﻿using System;
+
+namespace Snake {
+    public class Coordinate : IEquatable<Coordinate> {
         public int x { get; private set; }
         public int y { get; private set; }
 
@@ -12,5 +14,8 @@
             this.y = y;
         }
 
+        public bool Equals(Coordinate other) {
+            return x == other.x && y == other.y;
+        }
     }
 }

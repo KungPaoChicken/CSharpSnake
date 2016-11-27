@@ -9,23 +9,23 @@ using System.Windows.Threading;
 
 namespace Snake {
     public partial class GameWindow : Window {
-        private static readonly SolidColorBrush EMPTY = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
-        private static readonly SolidColorBrush SNAKE = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-        private static readonly SolidColorBrush APPLE = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+        private Rectangle[][] blocks;
+        private DispatcherTimer timer;
+        private Renderer renderer;
+        private Direction nextDirection;
+        private Frame frame;
 
         public GameWindow(Field field, int fps) {
             InitializeComponent();
             initializeGrid(field);
             initializeTimer(fps);
+            renderer = new Renderer(timer, blocks);
+            nextDirection = Direction.UP;
+            frame = new Frame(field);
             timer.Start();
         }
 
-        private DispatcherTimer timer;
-        private Field field;
-        private Rectangle[][] blocks;
-
         private void initializeGrid(Field field) {
-            this.field = field;
             // Jagged array instead of multi-dimensional array is used for performance reasons
             // And similarity to our (crappy) Java code
             blocks = new Rectangle[field.width][];
@@ -40,9 +40,9 @@ namespace Snake {
                 blocks[i] = new Rectangle[field.height];
                 for (int j = 0; j < field.height; j++) {
                     blocks[i][j] = new Rectangle();
-                    blocks[i][j].Fill = EMPTY;
-                    Grid.SetRow(blocks[i][j], i);
-                    Grid.SetColumn(blocks[i][j], j);
+                    blocks[i][j].Fill = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+                    Grid.SetColumn(blocks[i][j], i);
+                    Grid.SetRow(blocks[i][j], j);
                     grid.Children.Add(blocks[i][j]);
                 }
             }
@@ -55,7 +55,7 @@ namespace Snake {
         }
 
         private void render(object sender, EventArgs e) {
-            
+            renderer.render(frame.nextFrame(nextDirection));
         }
 
         private void pause() {
@@ -67,7 +67,7 @@ namespace Snake {
         }
 
         private void draw(List<Coordinate> cs, SolidColorBrush colour) {
-            foreach(Coordinate c in cs) {
+            foreach (Coordinate c in cs) {
                 draw(c, colour);
             }
         }
@@ -76,8 +76,20 @@ namespace Snake {
             blocks[c.x][c.y].Fill = colour;
         }
 
-        private void Window_KeyUp(object sender, KeyEventArgs e) {
-            MessageBox.Show("You pressed " + e.Key.ToString());
+        private void HandleKeyInput(object sender, KeyEventArgs e) {
+            switch (e.Key) {
+                case Key.Up:
+                case Key.Down:
+                case Key.Left:
+                case Key.Right:
+                    Direction newDirection = new Direction(e.Key);
+                    if (!nextDirection.isOpposite(newDirection)) {
+                        nextDirection = newDirection;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

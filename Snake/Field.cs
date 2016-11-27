@@ -5,8 +5,8 @@ namespace Snake {
         public int width { get; private set; }
         public int height { get; private set; }
 
-        Snek snake { get; set; }
-        public Coordinate apple { get; private set; }
+        public Snek snake { get; set; }
+        public Coordinate apple { get; protected set; }
         internal Random seed;
 
         public Field(int width, int height, Snek snake) {
@@ -14,12 +14,13 @@ namespace Snake {
             this.height = height;
             this.snake = snake;
             seed = new Random();
+            makeApple();
         }
 
-        private void MakeApple() {
+        public void makeApple() {
             do {
-                Coordinate c = new Coordinate(seed.Next(width), seed.Next(height));
-            } while (false);
+                apple = new Coordinate(seed.Next(width), seed.Next(height));
+            } while (snake.contains(apple));
         }
     }
 }
