@@ -15,22 +15,18 @@ namespace Snake {
             ordinal = ord;
         }
 
-        public Direction(Key k) : this(fromKey(k)) {
-
-        }
-
-        private static int fromKey(Key s) {
+        public static Direction fromKey(Key s) {
             switch (s) {
                 case Key.Up:
-                    return UP.ordinal;
+                    return UP;
                 case Key.Down:
-                    return DOWN.ordinal;
+                    return DOWN;
                 case Key.Left:
-                    return LEFT.ordinal;
+                    return LEFT;
                 case Key.Right:
-                    return RIGHT.ordinal;
+                    return RIGHT;
                 default:
-                    return DEFAULT_DIRECTION.ordinal;
+                    return DEFAULT_DIRECTION;
             }
         }
 

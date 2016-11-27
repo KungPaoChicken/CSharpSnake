@@ -70,7 +70,7 @@ namespace Snake {
                 case Key.Down:
                 case Key.Left:
                 case Key.Right:
-                    Direction newDirection = new Direction(e.Key);
+                    Direction newDirection = Direction.fromKey(e.Key);
                     if (!nextDirection.isOpposite(newDirection)) {
                         nextDirection = newDirection;
                     }
