@@ -10,7 +10,7 @@ namespace Snake {
         public List<Command> nextFrame(Direction direction) {
             List<Command> commands = new List<Command>();
             Coordinate next_head = nextHead(direction);
-            if (snake.contains(next_head)) {    // have to remove old head first, else the imaginary new head would trigger this
+            if (snake.contains(next_head) && !snake.get(snake.length -1).Equals(next_head)) {
                 commands.Add(new PauseCommand());
             } else {
                 if (snake.get(0).Equals(apple)) {
