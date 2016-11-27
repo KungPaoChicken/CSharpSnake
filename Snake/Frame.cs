@@ -12,17 +12,18 @@ namespace Snake {
             Coordinate next_head = nextHead(direction);
             if (snake.contains(next_head)) {
                 commands.Add(new PauseCommand());
-            }
-            if (snake.get(0).Equals(apple)) {
-                snake.grow(next_head);
-                makeApple();
-                commands.Add(new DrawCommand(DrawCommand.APPLE, apple));
             } else {
-                commands.Add(new DrawCommand(DrawCommand.EMPTY, snake.get(snake.length - 1)));
+                if (snake.get(0).Equals(apple)) {
+                    snake.grow(next_head);
+                    makeApple();
+                    commands.Add(new DrawCommand(DrawCommand.APPLE, apple));
+                } else {
+                    commands.Add(new DrawCommand(DrawCommand.EMPTY, snake.get(snake.length - 1)));
+                }
+                commands.Add(new DrawCommand(DrawCommand.APPLE, apple));    // should only ran on first loop
+                snake.updateHead(next_head);
+                commands.Add(new DrawCommand(DrawCommand.SNAKE, next_head));
             }
-            commands.Add(new DrawCommand(DrawCommand.APPLE, apple));    // should only ran on first loop
-            snake.updateHead(next_head);
-            commands.Add(new DrawCommand(DrawCommand.SNAKE, next_head));
             return commands;
         }
 
