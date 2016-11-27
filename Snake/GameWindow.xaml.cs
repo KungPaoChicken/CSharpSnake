@@ -5,13 +5,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace Snake {
     public partial class GameWindow : Window {
         private Rectangle[][] blocks;
-        private DispatcherTimer timer;
-        private Renderer renderer;
         private Direction nextDirection;
         private Frame frame;
 
@@ -19,10 +16,8 @@ namespace Snake {
             InitializeComponent();
             initializeGrid(field);
             initializeTimer(fps);
-            renderer = new Renderer(timer, blocks);
             nextDirection = Direction.UP;
             frame = new Frame(field);
-            timer.Start();
         }
 
         private void initializeGrid(Field field) {
@@ -49,31 +44,24 @@ namespace Snake {
         }
 
         private void initializeTimer(int fps) {
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(render);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / fps);
+            CompositionTarget.Rendering += new EventHandler(render);
         }
 
         private void render(object sender, EventArgs e) {
-            renderer.render(frame.nextFrame(nextDirection));
+            // do the frame calculation here
+            render(frame.nextFrame(nextDirection));
         }
 
-        private void pause() {
-            timer.Stop();
-        }
-
-        private void unpause() {
-            timer.Start();
-        }
-
-        private void draw(List<Coordinate> cs, SolidColorBrush colour) {
-            foreach (Coordinate c in cs) {
-                draw(c, colour);
+        public void render(List<Command> commands) {
+            foreach (Command c in commands) {
+                if (c.GetType() == typeof(DrawCommand)) {
+                    DrawCommand com = (DrawCommand)c;
+                    blocks[((DrawCommand)c).location.x][((DrawCommand)c).location.y].Fill = ((DrawCommand)c).type;
+                } else if (c.GetType() == typeof(PauseCommand)) {
+                    CompositionTarget.Rendering -= render;
+                    MessageBox.Show("Game over");
+                }
             }
-        }
-
-        private void draw(Coordinate c, SolidColorBrush colour) {
-            blocks[c.x][c.y].Fill = colour;
         }
 
         private void HandleKeyInput(object sender, KeyEventArgs e) {
