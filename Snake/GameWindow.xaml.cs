@@ -57,7 +57,7 @@ namespace Snake {
                 if (c.GetType() == typeof(DrawCommand)) {
                     DrawCommand com = (DrawCommand)c;
                     blocks[((DrawCommand)c).location.x][((DrawCommand)c).location.y].Fill = ((DrawCommand)c).type;
-                } else if (c.GetType() == typeof(PauseCommand)) {
+                } else if (c.GetType() == typeof(PauseCommand)) { 
                     CompositionTarget.Rendering -= render;
                     MessageBox.Show("Game over");
                 }
