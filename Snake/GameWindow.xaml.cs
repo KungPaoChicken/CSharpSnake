@@ -54,7 +54,7 @@ namespace Snake {
         }
 
         private void show(object sender, System.Timers.ElapsedEventArgs e) {
-            this.Dispatcher.BeginInvoke(
+            Dispatcher.BeginInvoke(
                 DispatcherPriority.Render, 
                 new Action(() => render(frame.nextFrame(nextDirection)))
                 );
