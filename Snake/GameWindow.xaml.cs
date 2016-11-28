@@ -5,19 +5,22 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Snake {
     public partial class GameWindow : Window {
         private Rectangle[][] blocks;
         private Direction nextDirection;
         private Frame frame;
+        private int sleepDuration;
+        private System.Timers.Timer timer;
 
         public GameWindow(Field field, int fps) {
             InitializeComponent();
             initializeGrid(field);
+            frame = new Frame(field);
             initializeTimer(fps);
             nextDirection = Direction.UP;
-            frame = new Frame(field);
         }
 
         private void initializeGrid(Field field) {
@@ -44,12 +47,17 @@ namespace Snake {
         }
 
         private void initializeTimer(int fps) {
-            CompositionTarget.Rendering += new EventHandler(render);
+            timer = new System.Timers.Timer();
+            timer.Interval = 1000 / fps;
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(show);
+            timer.Enabled = true;
         }
 
-        private void render(object sender, EventArgs e) {
-            // do the frame calculation here
-            render(frame.nextFrame(nextDirection));
+        private void show(object sender, System.Timers.ElapsedEventArgs e) {
+            App.Current.Dispatcher.BeginInvoke(
+                DispatcherPriority.Render, 
+                new Action(() => render(frame.nextFrame(nextDirection)))
+                );
         }
 
         public void render(List<Command> commands) {
@@ -58,7 +66,7 @@ namespace Snake {
                     DrawCommand com = (DrawCommand)c;
                     blocks[((DrawCommand)c).location.x][((DrawCommand)c).location.y].Fill = ((DrawCommand)c).type;
                 } else if (c.GetType() == typeof(PauseCommand)) { 
-                    CompositionTarget.Rendering -= render;
+                    // CompositionTarget.Rendering -= render;
                     MessageBox.Show("Game over");
                 }
             }

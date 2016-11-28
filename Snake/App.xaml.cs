@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
-using System.Collections.Generic;
 
 namespace Snake {
     /// <summary>
@@ -11,6 +10,7 @@ namespace Snake {
         private static int WIDTH = 50;
         private static int HEIGHT = 50;
         private static int FRAMES = 30;
+        private GameWindow w;
 
         private void HandleException(object sender, DispatcherUnhandledExceptionEventArgs e) {
             MessageBox.Show("Unhandled exception: " + e.Exception.Message, "Exception", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -21,7 +21,7 @@ namespace Snake {
             Snek snake = new Snek(WIDTH * HEIGHT, Direction.RIGHT);
             snake.add(new Coordinate(0, 0));
             Field field = new Field(WIDTH, HEIGHT, snake);
-            GameWindow w = new GameWindow(field, FRAMES);
+            w = new GameWindow(field, FRAMES);
             w.Show();
         }
 
