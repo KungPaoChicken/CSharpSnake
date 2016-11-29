@@ -12,7 +12,6 @@ namespace Snake {
         private Rectangle[][] blocks;
         private Direction nextDirection;
         private Frame frame;
-        private int sleepDuration;
         private System.Timers.Timer timer;
 
         public GameWindow(Field field, int fps) {
